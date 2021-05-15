@@ -1,0 +1,104 @@
+package matrix;
+
+import java.util.Arrays;
+
+public class Spiral {
+	
+  public static int[][] genSpiral(int n) {
+	  
+   if (n<=0) {
+    throw new IllegalArgumentException("N must be >0");
+   }
+   
+   int[] dc = new int[]{1,0,-1,0};
+   int[] dr = new int[]{0,1,0,-1};
+   int dir = 0, val=0, r=0, c=0,limit=n*n;
+   int[][] matrix = new int[n][n];
+   
+   while (val++ < limit) {
+	System.out.println(" row= " + r + " col=" + c + " " + val);
+    matrix[r][c] = val;
+    r += dr[dir];
+    c += dc[dir];
+    if (isInvalid(matrix,r, c)) {
+    	r-= dr[dir];
+    	c-=dc[dir];
+    	dir = (dir+1)%4;
+    	r+= dr[dir];
+    	c+= dc[dir];
+    }
+   }
+   return matrix;
+  }
+  
+  private static boolean isInvalid(int[][] m, int r, int c) {
+   return r<0||c<0||r>=m.length||c>= m.length||m[r][c] != 0;
+  }
+  
+  public static int[][] printSpiralNew(int n) {
+	  int[][]mtx = new int[n][n];
+
+	  return printSpiral(mtx,0,0, n,0);
+	  
+  }
+  
+  public static int[][] printSpiral(int[][] mtx, int x, int y, int n, int value) {
+	  if(n<=0)
+		  throw new IllegalArgumentException("n must be bigger than 0");
+	  if(n==1) {
+		  value++;
+		  mtx[x][y]=value;
+		  return mtx;
+	  }
+	
+	  
+	  for(int i=0; i<n; i++) {
+		  value++;
+		  mtx[x][y++] = value; 
+		  System.out.println("x=" + x + " y=" + y + " value=" + value);
+	  }
+	  x++;
+	  y--;
+	  
+	  for(int j=1; j<n; j++) {
+		  value++;
+		  mtx[x++][y] = value;
+		  System.out.println("y=" + y + " j=" + j  + " value= " + value);
+	  }
+	  x--;
+	  y--;
+	  //move to the left
+	  for(int h=n-1; h>0; h--) {
+		  value++;
+		  mtx[x][y--]= value;
+		  System.out.println("y=" + y + " h=" + h + " value=" + value);
+	  }
+	  y++;
+	  x--;
+	  
+	  for(int k=n-2; k>=0; k--) {
+
+		  if(mtx[x][y] ==0) {
+			value++;
+		  	mtx[x--][y] = value;
+			  System.out.println("x=" + x + " y=" + y + " value=" + value);
+
+		  }
+	  }
+
+	  if (n>2)
+		  printSpiral(mtx,x+1, y+1, n-2, value);
+	  return mtx;
+  }
+  
+  public static void main(String[] args) {
+	  
+	  int[][] lina= Spiral.printSpiralNew(4);
+
+	  //Spiral sp = new Spiral();
+	  //Spiral.genSpiral(6);
+	  
+  }
+}
+
+
